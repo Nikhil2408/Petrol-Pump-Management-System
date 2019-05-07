@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <style>
+                /* Bordered form */
+       form {
+           border: 3px solid #f1f1f1;
+       }
+       
+       /* Full-width inputs */
+       input[type=text], input[type=password],input[type=number],input[type=file],input[type=tel],input[type=email] ,select{
+           width: 20%;
+           padding: 12px 20px;
+           margin: 8px 0;
+           display: inline-block;
+           border: 1px solid #ccc;
+           box-sizing: border-box;
+       }
+       
+       /* Set a style for all buttons */
+       button {
+           background-color: blue;
+           color: white;
+           padding: 14px 20px;
+           margin: 8px 0;
+           border: none;
+           cursor: pointer;
+           font-weight: bold;
+       }
+       button:hover {
+           opacity: 0.8;
+       }
+       p{
+           color: darkgreen;
+           font-weight: bold;
+           font-style: italic;
+       }
+       </style>
+</head>
+<body>
+        <h2 align="center" >Petrol Pump Creation</h2><br>
+        <% if(errormsg) { %>
+            <h2 align="center">
+                Error In PetrolPump Creation <%= errormsg %>
+            </h2>
+        <% } else { %> 
+<form method="POST" action="/app/newPetrolPump" autocomplete="on" enctype="multipart/form-data">
+    <p align="center" >
+PetrolPump Name <input type="text" name="Name" placeholder="Name"><br>
+Address <input type="text" name="Address" placeholder="Address"><br>
+City <input type="text" name="City" placeholder="City"><br>
+Pincode <input type="text" name="Pincode" placeholder="Pincode"><br>
+Registration <input type="text" name="Registration" placeholder="Registration"><br>
+E-mail <input type="text" name="mail" placeholder="mail"><br>
+Phone <input type="text" name="Phone" placeholder="Phone"><br>
+State <input type="text" name="State" placeholder="State"><br>
+</p>
+<br><br>
+<h2 align="center" >Admin Info</h2><br>
+<p align="center" >
+First Name<input type="text" name="fname" placeholder="Enter First Name"><br>
+Last Name<input type="text" name="lname" placeholder="Enter Last Name" ><br>
+Address <input type="text" name="aaddress" placeholder="Enter Address" ><br>
+Phone <input type="text" name="aphone" placeholder="Enter Phone No." ><br>
+E-mail <input type="text" name="aemail" placeholder="Enter E-mail" ><br>
+Adhaar <input type="text" name="adhaar" placeholder="Enter Adhaar No." ><br>
+Password <input type="password" name="password" ><br>
+Photo <input type="file" name="pic"><br><br>
+<button type="submit" name="submit" value="submit">Create Account</button>
+</p>
+</form>
+<% } %>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <% include newheader.html %>
+        <style>
+                input[type=text]{
+                    width: 60%;
+                }
+                </style>
+</head>
+<body>
+        <% if(currentUser) {%>
+
+        <p align="center">
+            <h2 align="center">Available collection mode</h2>
+                <table align="center" class="table table-striped" style="width: 50%;">
+                    <th>Mode</th>
+                    
+                    <% for(i in collectiontype) { %>
+                        <tr>
+                            <td><%= collectiontype[i].MODE %></td>
+                           
+                           
+                        </tr>
+                    <% } %>
+                </table>
+            </p>
+    <p align="right">
+
+<button onclick="document.getElementById('addmode').style.display='block'">+ Add COLLECTION MODE</button>
+</p>
+    <div id="addmode" class="modal">
+        <form action="icollectionmode" class="modal-content animate" method="post">
+               
+              
+                <div class="container" align="center">
+                        
+                  <label for="mode"><b>Mode</b></label>
+                  <input type="text"  class="form-control" placeholder="Enter New collection Mode" name="mode" required>
+                    <br>
+                 
+                    
+                      <br>
+                  <button class="formbutton" type="submit" name="tid" value="1 1">Add</button>
+                  <button  class="cancelbtn" onclick="document.getElementById('addmode').style.display='none'">Cancel</button>
+                
+                </div>
+              </form> 
+            </div>
+
+
+
+           
+            <script type="text/javascript">
+               
+                var cancelbtn = document.querySelectorAll('.cancelbtn');
+                for(var i=0;i<cancelbtn.length;++i){
+                    cancelbtn[i].addEventListener('click',function(event){
+                        document.querySelector('#addmode input[name=mode]').value='';
+                    });
+                }
+                
+                </script>
+          <% } else { %>             
+            <h2>Login First</h2>  
+            <% } %>               
+</body>
+</html>

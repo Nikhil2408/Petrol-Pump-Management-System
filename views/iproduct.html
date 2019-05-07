@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <% include newheader.html %>
+        <style>
+        input[type=text],input[type=number]{
+            width: 50%;
+        }
+        </style>
+
+</head>
+<body>
+        <% if(currentUser) {%>
+    <form action="iproduct" method="get">
+            <p align="center">
+        <label for="ptype" class="filterlabel">Filter By Product Type</label>
+        <select name="ptype" class="form-control" style="width: 50%;">
+            <% if(ptype=='All') {%>
+                <option value="All"  class="form-control" selected="selected">All</option>
+                <% } else { %>
+                    <option  class="form-control" value="All">All</option>
+                    <% } %>
+
+                    <% if(ptype=='0') {%>
+                <option value="0"  class="form-control" selected="selected">Non-Fuel</option>
+                <% } else { %>
+                <option value="0" class="form-control" >Non-Fuel</option>
+                <% } %>
+
+                <% if(ptype=='1') {%>
+                    <option value="1"  class="form-control" selected="selected">Fuel</option>
+                    <% } else { %>
+                    <option value="1" class="form-control" >Fuel</option>
+                    <% } %>
+        </select>
+        <label for"pname" class="filterlabel">Filter By Product Name</label>
+        <select name="pname" class="form-control"  style="width: 50%;" >
+            <% if (pname && pname=='All') { %>
+                <option value="All"  class="form-control" selected="selected">All</option>
+            <% } else { %>
+                <option value="All" class="form-control" >All</option>
+                <% } %>
+
+            <% for(i in productname) { %>
+                <% if(pname==productname[i].NAME) { %>
+                <option value="<%= productname[i].NAME %>"  class="form-control" selected="selected"><%= productname[i].NAME %></option>
+                <% } else { %>
+                    <option value="<%= productname[i].NAME %>" class="form-control" ><%= productname[i].NAME %></option>
+                    <% } %>
+            <% } %>
+        </select>
+        <button type="submit" name="act" value="0 1">Filter</button>
+    </p>
+    </form>
+
+        <p align="center">
+            <h2 align="center">Available Products</h2>
+                <table align="center" class="table table-striped" >
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Change</th>
+                    
+                    
+                   <th>Delete</th>
+                   <th>working</th>
+                 
+                    <% for(i in productDetails) { %>
+                        <tr>
+                            <td><%= productDetails[i].NAME %></td>
+                            <% if (productDetails[i].TYPE==1) { %>
+                            <td>Fuel</td>
+                            <% } else { %>
+                                <td>Non-Fuel</td>
+                            <% } %>
+                            <td><%= productDetails[i].PRICE %></td>
+                            <td><%= productDetails[i].QTY %></td>
+                            <td><button data-cap='<%= productDetails[i].ID %>' class='editbtn' id="btn-<%=productDetails[i].ID%>" value="<%= i %>" >EDIT</td>
+
+                                <% if ( productDetails[i].ACTIVE==1) { %>
+                                    <td><form action="/app/iproduct" method="POST"><button name="act" value="<%= '3 0 '+ productDetails[i].ID %>">Delete</button></form>
+                                    </td>
+                                    <% } else { %>
+                                        <td><form action="/app/iproduct" method="POST"><button name="act" value="<%= '3 1 '+productDetails[i].ID %>">Undo</button></form>
+                                        </td>
+                                    <% } %>
+                                    <% if (productDetails[i].ACTIVE==1) { %>
+                                        <td>YES</td>
+                                        <% } else { %>
+                                            <td>NO</td>
+                                        <% } %>
+
+                        </tr>
+                    <% } %>
+                </table>
+            </p>
+    <p align="right">
+
+<button onclick="document.getElementById('addproduct').style.display='block'">+ Add Product</button>
+</p>
+    <div id="addproduct" class="modal">
+        <form action="iproduct" class="modal-content animate" method="post">
+                <div class="imgcontainer">
+                  <img src="img_avatar2.png" alt="Add Product" class="avatar">
+                </div>
+              
+                <div class="container" align="center">
+                        
+                  <label for="name"><b>Name</b></label>
+                  <input type="text"  class="form-control" placeholder="Enter Product Name" name="name" required>
+                  <br>
+                    <label for="type"><b>Product Type</b></label>
+                    <input type="radio"  class="form-control" name="type" value="0">Non-Fuel
+                    &nbsp;&nbsp;
+                    <input type="radio"  class="form-control" name="type" value="1">Fuel
+                    <br>
+                  <label for="price"><b>Price</b></label>
+                  <input type="text"  class="form-control" name="price" placeholder="Enter Price">
+                  <br>
+                  <label for="qty"><b>Quantity</b></label>
+                    <input type="number"  class="form-control" name="qty">
+                      <br>
+                  <button class="formbutton" type="submit" name="act" value="0 4">Add</button>
+                  <button  class="cancelbtn" onclick="document.getElementById('addproduct').style.display='none'">Cancel</button>
+                
+                </div>
+              </form> 
+            </div>
+
+
+
+            <div id="editproduct" class="modal">
+                    <form action="iproduct" class="modal-content animate"  method="post">
+                            <div class="imgcontainer">
+                              <img src="img_avatar2.png" alt="Edit Tank" class="avatar">
+                            </div>
+                          
+                            <div class="container" align="center">
+                          <label for="name"><b>Name</b></label>
+                          <input type="text"  class="form-control" placeholder="Enter Product Name" name="name" required>
+                          <br>
+                            <label for="ptype"><b>Product Type</b></label>
+                            <input type="radio"  class="form-control" name="type" value="0">Non-Fuel
+                            &nbsp;&nbsp;
+                            <input type="radio"  class="form-control" name="type" value="1">Fuel
+                            <br>
+                          <label for="price"><b>Price</b></label>
+                          <input type="text"  class="form-control" name="price" placeholder="Enter Price">
+                          <br>
+                          <label for="qty"><b>Quantity</b></label>
+                            <input type="number"  class="form-control" name="qty">
+                              <br>
+                              <button class="formbutton" type="submit" name="act">Update</button>
+                              <button  class="cancelbtn" onclick="document.getElementById('editproduct').style.display='none'">Cancel</button>
+                            
+                            </div>
+                          </form> 
+                        </div>
+                        <script type="text/javascript">
+                            var editbtn = document.querySelectorAll('.editbtn');
+                            var b;
+                            console.log(editbtn);
+                            for(var i=0;i<editbtn.length;++i){
+                            editbtn[i].addEventListener('click',function(event){
+                                a = document.querySelector('#editproduct button[name=act]').value='2 '+event.target.getAttribute('data-cap');
+                                console.log(a);
+                                document.getElementById('editproduct').style.display='block';   
+                            });
+                            }
+                            var cancelbtn = document.querySelectorAll('.cancelbtn');
+                            for(var i=0;i<cancelbtn.length;++i){
+                                cancelbtn[i].addEventListener('click',function(event){
+                                    document.querySelector('#addproduct input[name=price]').value='';
+                                });
+                            }
+                            var cancelbtn = document.querySelectorAll('.cancelbtn');
+                            for(var i=0;i<cancelbtn.length;++i){
+                                cancelbtn[i].addEventListener('click',function(event){
+                                    document.querySelector('#editproduct input[name=price]').value='';
+                                });
+                            }
+                            </script>
+<% } else { %>             
+    <h2>Login First</h2>  
+    <% } %>           
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <% include newheader.html %>
+        <style>
+        input[type=text]{
+            width: 60%;
+        }
+        </style>
+</head>
+<body>
+        <% if(currentUser) {%>
+
+        <p align="center">
+            <h2 align="center">Available credit details</h2>
+                <table align="center"  class="table table-striped">
+                    <th>NAME</th>
+                    <th>ADDRESS</th>
+                    <th>PHONE</th>
+                    <th>BALANCE</th>
+                    <th>ACTIVE</th>>
+                    <th>CHANGE</th>
+                    <th>DELETE</th>
+                    <% for(i in creditDetail) { %>
+                        <tr>
+                            <td><%= creditDetail[i].NAME %></td>
+                            <td><%= creditDetail[i].ADDRESS %></td>
+                            <td><%= creditDetail[i].PHONE %></td>
+                            <td><%= creditDetail[i].BALANCE%></td>
+                            <% if (creditDetail[i].ACTIVE==1) { %>
+                                <td>YES</td>
+                                <% } else { %>
+                                    <td>NO</td>
+                                <% } %>
+                            <td><button data-cap='<%= creditDetail[i].ID %>' class='editbtn' id="btn-<%=creditDetail[i].ID%>" value="<%= i %>" >EDIT</td>
+                                <% if (ScheduleResult[i].ACTIVE==1) { %>
+                                    <td><form action="/app/icredit" method="POST"><button name="cid" value="<%= '3 0 '+creditDetail[i].ID %>">Delete</button></form>
+                                    </td>
+                                    <% } else { %>
+                                        <td><form action="/app/icredit" method="POST"><button name="cid" value="<%= '3 1 '+creditDetail[i].ID %>">Undo</button></form>
+                                        </td>
+                                    <% } %>
+                            </tr>
+                    <% } %>
+                </table>
+            </p>
+    <p align="right">
+
+<button onclick="document.getElementById('addcredit').style.display='block'">+ ADD CREDIT</button>
+</p>
+    <div id="addcredit" class="modal">
+        <form action="icredit" class="modal-content animate" method="post">
+                <div class="imgcontainer">
+                  <img src="img_avatar2.png" alt="Add Credit" class="avatar">
+                </div>
+              
+                <div class="container" align="center">
+                        
+                  <label for="name"><b>Name</b></label>
+                  <input type="text" placeholder="Enter NAME" name="name" class="form-control"  required>
+                    <br>
+
+                    <label for="address"><b>Address</b></label>
+                  <input type="text" placeholder="Enter NAME" name="address" class="form-control"  required>
+                    <br>
+
+                    <label for="phone"><b>phone no.</b></label>
+                    <input type="text" placeholder="Enter Phone" name="phone" class="form-control"  required>
+                      <br>
+
+                      <label for="balance"><b>balance</b></label>
+                  <input type="text" placeholder="Enter balance" name="balance" class="form-control"  required>
+                    <br>
+
+                 
+                  <button class="formbutton" type="submit" name="cid" value="1 1">Add</button>
+                  <button  class="cancelbtn" onclick="document.getElementById('addcredit').style.display='none'">Cancel</button>
+                
+                </div>
+              </form> 
+            </div>
+
+
+            <div id="editcredit" class="modal">
+                    <form action="icredit" class="modal-content animate"  method="post">
+                            <div class="imgcontainer">
+                              <img src="img_avatar2.png" alt="Edit Credit" class="avatar">
+                            </div>
+                          
+                            <div class="container" align="center">
+                             
+
+                                <label for="name"><b>Employee name</b></label>
+                      <input type="text" placeholder="Enter NAME" name="name" class="form-control"  required>
+                    <br>
+
+                    <label for="address"><b>Address</b></label>
+                  <input type="text" placeholder="Enter NAME" name="address"  class="form-control" required>
+                    <br>
+
+                    <label for="phone"><b>phone no.</b></label>
+                    <input type="text" placeholder="Enter Phone" name="phone" class="form-control"  required>
+                      <br>
+
+                      <label for="balance"><b>balance</b></label>
+                  <input type="text" placeholder="Enter balance" name="balance" class="form-control"  required>
+                    <br>
+
+
+
+
+                              <button class="formbutton" type="submit" name="cid">Update</button>
+                              <button  class="cancelbtn" onclick="document.getElementById('editcredit').style.display='none'">Cancel</button>
+                            
+                            </div>
+                          </form> 
+                        </div>
+                        <script type="text/javascript">
+                            var editbtn = document.querySelectorAll('.editbtn');
+                            var b;
+                            console.log(editbtn);
+                            for(var i=0;i<editbtn.length;++i){
+                            editbtn[i].addEventListener('click',function(event){
+                                a = document.querySelector('#editcredit button[name=cid]').value='2 '+event.target.getAttribute('data-cap');
+                                console.log(a);
+                                document.getElementById('editcredit').style.display='block';   
+                            });
+                            }
+                            var cancelbtn = document.querySelectorAll('.cancelbtn');
+                            for(var i=0;i<cancelbtn.length;++i){
+                                cancelbtn[i].addEventListener('click',function(event){
+                                    document.querySelector('#addcredit input[name=name]').value='';
+                                });
+                            }
+                            var cancelbtn = document.querySelectorAll('.cancelbtn');
+                            for(var i=0;i<cancelbtn.length;++i){
+                                cancelbtn[i].addEventListener('click',function(event){
+                                    document.querySelector('#editcredit input[name=name]').value='';
+                                });
+                            }
+                            </script>
+          <% } else { %>             
+            <h2>Login First</h2>  
+            <% } %>               
+</body>
+</html>

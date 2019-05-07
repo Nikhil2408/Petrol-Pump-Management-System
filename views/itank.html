@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <% include newheader.html %>
+</head>
+<body>
+        <% if(currentUser) {%>
+    <form action="itank" method="get">
+            <p align="center">
+        <label for="type" class="filterlabel">Filter By Tank Type</label>
+        <select name="ttype">
+            <% if((!ttype) || ttype=='All') {%>
+                <option value="All" selected="selected">All</option>
+                <% } else {%>
+                    <option value="All">All</option>
+                    <% } %>
+            <% for(i in tankType)  {%>
+                <% if(ttype==tankType[i].TYPE) {%>
+                    <option value="<%= tankType[i].TYPE%>" selected="selected"><%= tankType[i].TYPE %></option>
+                    <% } else {%>
+                        <option value="<%= tankType[i].TYPE%>"><%= tankType[i].TYPE %></option>
+                        <% } %>
+            <% } %></option>
+        </select>
+        <button type="submit">Filter</button>
+    </p>
+    </form>
+
+        <p align="center">
+            <h2 align="center">Available Tanks</h2>
+                <table align="center" align="center"  class="table table-striped">
+                    <th>Capacity</th>
+                    <th>Type</th>
+                    <th>Working</th>
+                    <th>Change</th>
+                    <th>Delete</th>
+                    <% for(i in DetailtankResult) { %>
+                        <tr>
+                            <td><%= DetailtankResult[i].CAPACITY %></td>
+                            <td><%= DetailtankResult[i].TYPE %></td>
+                            <% if (DetailtankResult[i].ACTIVE==1) { %>
+                            <td>YES</td>
+                            <% } else { %>
+                                <td>NO</td>
+                            <% } %>
+                            <td><button data-cap='<%= DetailtankResult[i].ID %>' class='editbtn' id="btn-<%=DetailtankResult[i].ID%>" value="<%= i %>" >EDIT</button></td>
+                            <% if (DetailtankResult[i].ACTIVE==1) { %>
+                                <td><form action="/app/itank" method="POST"><button name="tid" value="<%= '3 0 '+DetailtankResult[i].ID %>">Delete</button></form>
+                                </td>
+                                <% } else { %>
+                                    <td><form action="/app/itank" method="POST"><button name="tid" value="<%= '3 1 '+DetailtankResult[i].ID %>">Undo</button></form>
+                                    </td>
+                                <% } %>
+                            
+                        </tr>
+                    <% } %>
+                </table>
+            </p>
+    <p align="right">
+
+<button onclick="document.getElementById('addtank').style.display='block'">+ Add Tank</button>
+</p>
+    <div id="addtank" class="modal">
+        <form action="itank" class="modal-content animate" method="post">
+                <div class="imgcontainer">
+                  <img src="img_avatar2.png" alt="Add Tank" class="avatar">
+                </div>
+              
+                <div class="container" align="center">
+                        <div class="form-group">
+                  <label for="capacity"><b>Capacity</b></label><br>
+                  <input type="text" placeholder="Enter Capacity" name="capacity" class="form-control" style="width: 60%;" required>
+                  </div>
+                    <br>
+                  <label for="type"><b>Type</b></label>
+                  <div class="form-group">
+                  <select name="type" class="form-control" style="width:50%;">
+                        <option value="HSD">Diesel</option>
+                        <option value="MS">Petrol</option>
+                      </select>
+                    </div>
+                      <br>
+                  <button class="formbutton" type="submit" name="tid" value="1 1">Add</button>
+                  <button  class="cancelbtn" onclick="document.getElementById('addtank').style.display='none'">Cancel</button>
+                
+                </div>
+              </form> 
+            </div>
+        
+
+
+
+            <div id="edittank" class="modal">
+                    <form action="itank" class="modal-content animate"  method="post">
+                            <div class="imgcontainer">
+                              <img src="img_avatar2.png" alt="Edit Tank" class="avatar">
+                            </div>
+                          
+                            <div class="container" align="center">
+                                    <div class="container" align="center">
+                                            <div class="form-group">
+                                      <label for="capacity"><b>Capacity</b></label><br>
+                                      <input type="text" placeholder="Enter Capacity" name="capacity" class="form-control" style="width: 60%;" required>
+                                      </div>
+                                <br>
+                              <label for="type"><b>Type</b></label>
+                              <div class="form-group">
+                                    <select name="type" class="form-control" style="width:50%;">
+                                          <option value="HSD">Diesel</option>
+                                          <option value="MS">Petrol</option>
+                                        </select>
+                                      </div>
+                                  <br>
+                              <button class="formbutton" type="submit" name="tid">Update</button>
+                              
+                              <button  class="cancelbtn" onclick="document.getElementById('edittank').style.display='none'">Cancel</button>
+                            
+                            </div>
+                          </form> 
+                        </div>
+                        <script type="text/javascript">
+                            var editbtn = document.querySelectorAll('.editbtn');
+                            var b;
+                            console.log(editbtn);
+                            for(var i=0;i<editbtn.length;++i){
+                            editbtn[i].addEventListener('click',function(event){
+                                a = document.querySelector('#edittank button[name=tid]').value='2 '+event.target.getAttribute('data-cap');
+                                console.log(a);
+                                document.getElementById('edittank').style.display='block';   
+                            });
+                            }
+                            var cancelbtn = document.querySelectorAll('.cancelbtn');
+                            for(var i=0;i<cancelbtn.length;++i){
+                                cancelbtn[i].addEventListener('click',function(event){
+                                    document.querySelector('#addtank input[name=capacity]').value='';
+                                });
+                            }
+                            var cancelbtn = document.querySelectorAll('.cancelbtn');
+                            for(var i=0;i<cancelbtn.length;++i){
+                                cancelbtn[i].addEventListener('click',function(event){
+                                    document.querySelector('#edittank input[name=capacity]').value='';
+                                });
+                            }
+                            </script>
+          <% } else { %>             
+            <h2>Login First</h2>  
+            <% } %>               
+</body>
+</html>

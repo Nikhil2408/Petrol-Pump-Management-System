@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+    input[type=text],input[type=password],input[type=number],input[type=tel],input[type=email]{
+        width: 60%;
+    }
+    input[type=file]{
+        width: 35%;
+    }
+    </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+            $('#other').hide();
+            $('#sel').change(function() {
+    var selected = $(this).val();
+    if(selected == 'Other'){
+      $('#other').show();
+      $('#sel').attr('name','abc');
+      $('#other').attr('name','TYPE');
+    }
+    else{
+      $('#other').hide();
+      $('#sel').attr('name','TYPE');
+      $('#other').attr('name','abc');
+    }
+});
+/*
+$('.formbutton').click(function(){
+    $('#other').show();
+});
+*/
+});
+</script>
+        <% include newheader.html %>
+
+</head>
+<body>
+    <% if(currentUser) {%>
+    <form action="/app/iemployee" method="get">
+            <p align="center">
+        <label for="etype" class="filterlabel">Filter By employee Role</label>
+        <select name="etype" id="myInput">
+            <% if(tt=='All') { %>
+                <option value="All" selected="selected">All</option>
+            <% } else { %>
+                <option value="All">All</option>
+            <%  } %>
+
+            <% for(i in employeeRole)  { %>
+                <% if(tt==employeeRole[i].TYPE) { %>
+                    <option value="<%= employeeRole[i].TYPE %>" selected="selected"><%= employeeRole[i].TYPE %></option>
+                <% } else { %>
+            <option value="<%= employeeRole[i].TYPE %>"><%= employeeRole[i].TYPE %></option>
+                <% } %>
+                <% } %>
+            </option>
+        </select>
+        <button type="submit">Filter</button>
+    </p>
+    </form>
+
+        <p align="center">
+            <h2 align="center">Available Employees</h2>
+                <table align="center" id="myTable"  class="table table-striped">
+                    <th>Profile Pic</th>
+                    <th>Fname</th>
+                    <th>Lname</th>
+                    <th>Role</th>
+                    <th>Address</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Adhaar</th>
+                    <th>Active</th>
+                    <th>Change</th>
+                    <th>Delete</th>
+                    <% for(i in employeeResult) { %>
+                        <tr>
+                            <td><img src="<%= '/static/uploads/'+employeeResult[i].PIC %>" alt="No Image" width="40" height="40"></td>
+                            <td><%= employeeResult[i].FNAME %></td>
+                            <td><%= employeeResult[i].LNAME %></td>
+                            <td><%= employeeResult[i].TYPE %></td>
+                            <td><%= employeeResult[i].ADDRESS %></td>
+                            <td><%= employeeResult[i].PHONE %></td>
+                            <td><%= employeeResult[i].EMAIL %></td>
+                            <td><%= employeeResult[i].ADHAAR %></td>
+                            <% if (employeeResult[i].ACTIVE==1) { %>
+                            <td>YES</td>
+                            <% } else { %>
+                                <td>NO</td>
+                            <% } %>
+                            <td><button data-cap='<%= employeeResult[i].ID %>' class='editbtn' id="btn-<%=employeeResult[i].ID%>" value="<%= i %>" >EDIT</td>
+                        
+                                <% if (employeeResult[i].ACTIVE==1) { %>
+                                    <td><form action="/app/iemployee" method="POST"><button name="act" value="<%= '4 0 '+employeeResult[i].ID %>">Delete</button></form>
+                                    </td>
+                                    <% } else { %>
+                                        <td><form action="/app/iemployee" method="POST"><button name="act" value="<%= '4 1 '+employeeResult[i].ID %>">Undo</button></form>
+                                        </td>
+                                    <% } %>
+                        
+                        
+                        
+                     </tr>
+                    <% } %>
+                    
+                </table>
+            </p>
+    <p align="right">
+
+<button onclick="document.getElementById('addemployee').style.display='block'">+ Add Employee</button>
+</p>
+    <div id="addemployee" class="modal">
+        <form action="iemployee" class="modal-content animate" method="post" enctype="multipart/form-data">
+                
+              
+                <div class="container" align="center">
+                        
+
+                        <label for="FNAME"><b>First Name</b></label>
+                        <input type="text" placeholder="Enter First Name" name="FNAME"  class="form-control" required>
+                          <br>
+
+                          <label for="LNAME"><b>Last Name</b></label>
+                          <input type="text" placeholder="Enter Last Name" name="LNAME"  class="form-control" required>
+                            <br>
+
+
+                            <label for="type"><b>Role</b></label>
+                            <div class="form-group">
+                            <select name="TYPE" id="sel"  class="form-control" style="width: 50%;">
+                                    <% for(i in employeeRole)  {%>
+                                    <option value="<%= employeeRole[i].TYPE%>"><%= employeeRole[i].TYPE %></option>
+                                    <% } %>
+                                    <option value="Other">Other</option>
+                                </select>
+                                </div>
+                                <input id="other" type="text" name="abc" placeholder="Designation"  class="form-control" />
+                      <br>
+                  <label for="ADDRESS"><b>Address</b></label>
+                  <input type="text" placeholder="Enter Address" name="ADDRESS"  class="form-control" required>
+                    <br>
+
+                    <label for="PHONE"><b>Phone</b></label>
+                  <input type="tel" placeholder="Enter Phone Number" name="PHONE"  class="form-control" required>
+                    <br>
+
+                    <label for="EMAIL"><b>Email</b></label>
+                  <input type="email" placeholder="Enter email" name="EMAIL"  class="form-control" required>
+                    <br>
+
+                    <label for="ADHAAR"><b>Adhaar</b></label>
+                  <input type="number" placeholder="Enter Adhaar" name="ADHAAR"  class="form-control" required>
+                    <br>
+
+                    <label for="pwd"><b>Password</b></label>
+                    <input type="password" name="pwd"  class="form-control" required>
+                      <br>
+  
+  
+                      <label for="pic"><b>Profile Pic</b></label>
+                      <input type="file" name="pic"  class="form-control" multiple>
+                      <br>
+                  
+                  <button class="formbutton" type="submit" name="act" value="3 1">Add</button>
+                  <button class="cancelbtn" onclick="document.getElementById('addemployee').style.display='none'">Cancel</button>
+                
+                </div>
+              </form> 
+            </div>
+
+
+
+            <div id="editemployee" class="modal">
+                    <form action="iemployee" class="modal-content animate"  method="post" enctype="multipart/form-data">
+                            
+                          
+                            <div class="container" align="center">
+                              <label for="FNAME"><b>First Name</b></label>
+                              <input type="text" placeholder="New employee fname" name="FNAME"  class="form-control" required>
+                                <br>
+                               
+                                <label for="lNAME"><b>Last Name</b></label>
+                                <input type="text" placeholder="New employee lname" name="LNAME"  class="form-control" required>
+                                  <br>
+
+                              <label for="type"><b>Role</b></label>
+                              <div class="form-group">
+                              <select name="TYPE" id="sel"  class="form-control" style="width: 50%;">
+                                    <% for(i in employeeRole)  {%>
+                                    <option value="<%= employeeRole[i].TYPE%>"><%= employeeRole[i].TYPE %></option>
+                                    <% } %>
+                                    <option value="Other">Other</option>
+                                </select>
+                                </div>
+
+                                  <label for="ADDRESS"><b>Address</b></label>
+                  <input type="text" placeholder="Enter Address" name="ADDRESS"  class="form-control" required>
+                    <br>
+
+                    <label for="PHONE"><b>Phone</b></label>
+                  <input type="tel" placeholder="Enter Phone Number" name="PHONE"  class="form-control" required>
+                    <br>
+
+                    <label for="EMAIL"><b>Email</b></label>
+                  <input type="email" placeholder="Enter email" name="EMAIL"  class="form-control" required>
+                    <br>
+
+                    <label for="ADHAAR"><b>Adhaar</b></label>
+                  <input type="number" placeholder="Enter Adhaar" name="ADHAAR"  class="form-control" required>
+                    <br>
+
+                    <label for="pwd"><b>Password</b></label>
+                  <input type="password" name="pwd"  class="form-control" required>
+                    <br>
+
+
+                    <label for="pic"><b>Profile Pic</b></label>
+                    <input type="file" name="pic"  class="form-control" multiple>
+                    <br>
+
+                              <button class="formbutton" type="submit" name="act">Update</button>
+                              <button type="submit" class="cancelbtn" onclick="document.getElementById('editemployee').style.display='none'">Cancel</button>
+                            
+                            </div>
+                          </form> 
+                        </div>
+                        <script type="text/javascript">
+                            var editbtn = document.querySelectorAll('.editbtn');
+                            var b;
+                            console.log(editbtn);
+                            for(var i=0;i<editbtn.length;++i){
+                            editbtn[i].addEventListener('click',function(event){
+                                a = document.querySelector('#editemployee button[name=act]').value='2 '+event.target.getAttribute('data-cap');
+                                console.log(a);
+                                document.getElementById('editemployee').style.display='block';   
+                            });
+                            }
+                            var cancelbtn = document.querySelectorAll('.cancelbtn');
+                            for(var i=0;i<cancelbtn.length;++i){
+                                cancelbtn[i].addEventListener('click',function(event){
+                                    document.querySelector('#addemployee input[name=pwd]').value='';
+                                });
+                            }
+                            var cancelbtn = document.querySelectorAll('.cancelbtn');
+                            for(var i=0;i<cancelbtn.length;++i){
+                                cancelbtn[i].addEventListener('click',function(event){
+                                    document.querySelector('#editemployee input[name=pwd]').value='';
+                                });
+                            }
+                            </script>
+     <% } else { %>             
+        <h2>Login First</h2>  
+        <% } %>    
+</body>
+</html>

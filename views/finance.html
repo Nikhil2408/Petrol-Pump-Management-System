@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
+<head>
+    <% include commonHeadElements.html %>
+</head>
+
+<body class="header-fixed header-fixed-space">
+    <div class="wrapper homePage">
+<h1>Finance</h1>
+
+
+
+<h2>Sales details about all shifts</h2>
+    <table border="5">
+        <tr>
+        <th>Supervisor Name</th>
+        <th>Assigned To</th>
+        <th>Type of Product</th>
+        <th>Nozzle No.</th>
+        <th>Shift Start_Time</th>
+        <th>User_ID</th>
+        <th>Sales</th>
+        
+        <th>Shift_Collection_ID</th>
+        <th>Mode</th>
+        <th>Amount</th>
+        </tr>
+        <% for(i in shiftDetails) { %>
+            <tr>
+                <td><%= shiftDetails[i].SUPERVISOR %></td>
+                <td><%= shiftDetails[i].ASSIGNED_TO %></td>
+                <td><%= shiftDetails[i].TYPE %></td>
+                <td><%= shiftDetails[i].NOZZLE_NUMBER %></td>
+                <td><%= shiftDetails[i].START_TIME %></td>
+                <td><%= shiftDetails[i].USER_ID %></td>
+                <td><%= shiftDetails[i].SALE %></td>
+                <td><%= shiftDetails[i].ID %></td>
+                <td><%= shiftDetails[i].MODE %></td>
+                <td><%= shiftDetails[i].AMOUNT %></td>
+               
+            </tr>
+        <% } %>       
+    </table>
+
+
+
+<br>
+<br>
+<h2>Sale details according to nozzle number</h2>
+    <table border="5">
+            <tr>
+            <th>Supervisor Name</th>
+            <th>Type of product</th>
+            <th>Nozzle number</th>
+            <th>Shift Start_Time</th>
+            <th>User_ID</th>
+            <th>Sales</th>
+            <th>Shift_Collection_ID</th>
+            <th>Mode</th>
+            <th>Amount</th>
+           
+            </tr>
+            <% for(i in saleDetails) { %>
+                <tr>
+                    <td><%= saleDetails[i].FNAME %></td>
+                    <td><%= saleDetails[i].TYPE %></td>
+                    <td><%= saleDetails[i].NOZZLE_NUMBER %></td>
+                    
+                    <td><%= saleDetails[i].START_TIME %></td>
+                    <td><%= saleDetails[i].USER_ID %></td>
+                    <td><%= saleDetails[i].SALE %></td>
+                    <td><%= saleDetails[i].ID %></td>
+                    <td><%= saleDetails[i].MODE %></td>
+                    <td><%= saleDetails[i].AMOUNT %></td>
+                   
+                </tr>
+            <% } %>       
+        </table>
+
+
+
+
+
+
+<br>
+<br>
+<h2>Sale details according to particular nozzle number</h2>
+<table border="5">
+        <tr>
+        <th>Supervisor Name</th>
+        <th>Type of product</th>
+        <th>Nozzle number</th>
+        <th>Shift Start_Time</th>
+        <th>User_ID</th>
+        <th>Sales</th>
+        <th>Shift_Collection_ID</th>
+        <th>Mode</th>
+        <th>Amount</th>
+       
+        </tr>
+        <% for(i in saleDetails1) { %>
+            <tr>
+                <td><%= saleDetails1[i].FNAME %></td>
+                <td><%= saleDetails1[i].TYPE %></td>
+                <td><%= saleDetails1[i].NOZZLE_NUMBER %></td>
+                
+                <td><%= saleDetails1[i].START_TIME %></td>
+                <td><%= saleDetails1[i].USER_ID %></td>
+                <td><%= saleDetails1[i].SALE %></td>
+                <td><%= saleDetails1[i].ID %></td>
+                <td><%= saleDetails1[i].MODE %></td>
+                <td><%= saleDetails1[i].AMOUNT %></td>
+               
+            </tr>
+        <% } %>       
+        </table>
+
+
+
+
+
+    <br>
+<br>
+<h2>Sale details according to a specific supervisor</h2>
+<table border="5">
+        <tr>
+        <th>Supervisor Name</th>
+        <th>Type of product</th>
+        <th>Nozzle number</th>
+        <th>Shift Start_Time</th>
+        <th>User_ID</th>
+        <th>Sales</th>
+        <th>Shift_Collection_ID</th>
+        <th>Mode</th>
+        <th>Amount</th>
+       
+        </tr>
+        <% for(i in supervisorDetails) { %>
+            <tr>
+                <td><%= supervisorDetails[i].FNAME %></td>
+                <td><%= supervisorDetails[i].TYPE %></td>
+                <td><%= supervisorDetails[i].NOZZLE_NUMBER %></td>
+                
+                <td><%= supervisorDetails[i].START_TIME %></td>
+                <td><%= supervisorDetails[i].USER_ID %></td>
+                <td><%= supervisorDetails[i].SALE %></td>
+                <td><%= supervisorDetails[i].ID %></td>
+                <td><%= supervisorDetails[i].MODE %></td>
+                <td><%= supervisorDetails[i].AMOUNT %></td>
+               
+            </tr>
+        <% } %>       
+    </table>
+
+
+
+
+
+
+    <br>
+    <br>
+    <h2>Sale details according to all supervisors</h2>
+    <table border="5">
+            <tr>
+            <th>Supervisor Name</th>
+            <th>Type of product</th>
+            <th>Nozzle number</th>
+            <th>Shift Start_Time</th>
+            <th>User_ID</th>
+            <th>Sales</th>
+            <th>Shift_Collection_ID</th>
+            <th>Mode</th>
+            <th>Amount</th>
+           
+            </tr>
+            <% for(i in supervisorDetails1) { %>
+                <tr>
+                    <td><%= supervisorDetails1[i].FNAME %></td>
+                    <td><%= supervisorDetails1[i].TYPE %></td>
+                    <td><%= supervisorDetails1[i].NOZZLE_NUMBER %></td>
+                    
+                    <td><%= supervisorDetails1[i].START_TIME %></td>
+                    <td><%= supervisorDetails1[i].USER_ID %></td>
+                    <td><%= supervisorDetails1[i].SALE %></td>
+                    <td><%= supervisorDetails1[i].ID %></td>
+                    <td><%= supervisorDetails1[i].MODE %></td>
+                    <td><%= supervisorDetails1[i].AMOUNT %></td>
+                   
+                </tr>
+            <% } %>       
+        </table>
+
+
+
+
+
+
+
+
+
+        <br>
+    <br>
+    <h2>Sale details according to particular DSM</h2>
+    <table border="5">
+            <tr>
+            <th>Supervisor Name</th>
+            <th>ASSIGNED TO </th>
+            <th>Type of product</th>
+            <th>Nozzle number</th>
+            <th>Shift Start_Time</th>
+            <th>User_ID</th>
+            <th>Sales</th>
+            <th>Shift_Collection_ID</th>
+            <th>Mode</th>
+            <th>Amount</th>
+           
+            </tr>
+            <% for(i in dsmDetails) { %>
+                <tr>
+                    <td><%= dsmDetails[i].SUPERVISOR %></td>
+                    <td><%= dsmDetails[i].DSM %></td>
+                    <td><%= dsmDetails[i].TYPE %></td>
+                    <td><%= dsmDetails[i].NOZZLE_NUMBER %></td>
+                    
+                    <td><%= dsmDetails[i].START_TIME %></td>
+                    <td><%= dsmDetails[i].USER_ID %></td>
+                    <td><%= dsmDetails[i].SALE %></td>
+                    <td><%= dsmDetails[i].ID %></td>
+                    <td><%= dsmDetails[i].MODE %></td>
+                    <td><%= dsmDetails[i].AMOUNT %></td>
+                   
+                </tr>
+            <% } %>       
+        </table>
+
+
+
+
+
+
+
+
+
+
+        <br>
+        <br>
+        <h2>Sale details according to all DSM</h2>
+        <table border="5">
+                <tr>
+                <th>Supervisor Name</th>
+                <th>ASSIGNED TO </th>
+                <th>Type of product</th>
+                <th>Nozzle number</th>
+                <th>Shift Start_Time</th>
+                <th>User_ID</th>
+                <th>Sales</th>
+                <th>Shift_Collection_ID</th>
+                <th>Mode</th>
+                <th>Amount</th>
+               
+                </tr>
+                <% for(i in dsmDetails1) { %>
+                    <tr>
+                        <td><%= dsmDetails1[i].SUPERVISOR %></td>
+                        <td><%= dsmDetails1[i].DSM %></td>
+                        <td><%= dsmDetails1[i].TYPE %></td>
+                        <td><%= dsmDetails1[i].NOZZLE_NUMBER %></td>
+                        
+                        <td><%= dsmDetails1[i].START_TIME %></td>
+                        <td><%= dsmDetails1[i].USER_ID %></td>
+                        <td><%= dsmDetails1[i].SALE %></td>
+                        <td><%= dsmDetails1[i].ID %></td>
+                        <td><%= dsmDetails1[i].MODE %></td>
+                        <td><%= dsmDetails1[i].AMOUNT %></td>
+                       
+                    </tr>
+                <% } %>       
+            </table>
+
+
+
+
+
+
+
+            <br>
+        <br>
+        
+
+
+
+
+
+
+
+
+
+
+    </div>
+<% include commonFooterScriptElements.html %>
+</body>
+</html>

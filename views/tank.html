@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
+<head>
+    <% include commonHeadElements.html %>
+</head>
+
+<body class="header-fixed header-fixed-space">
+    <div class="wrapper homePage">
+<h1>Tank</h1>
+<p>
+    <table border="5"  class="table table-striped">
+        <th>Capacity</th>
+        <th>Type</th>
+        <th>Working</th>
+        <% for(i in DetailtankResult) { %>
+            <tr>
+                <td><%= DetailtankResult[i].CAPACITY %></td>
+                <td><%= DetailtankResult[i].TYPE %></td>
+                <% if (DetailtankResult[i].ACTIVE==1) { %>
+                <td>YES</td>
+                <% } else { %>
+                    <td>NO</td>
+                <% } %>
+            </tr>
+        <% } %>       
+    </table>
+</p>
+
+
+<h1>Details of a tank</h1>
+<p>
+    <table border="5" align="center"  class="table table-striped">
+            <th>Capacity</th>
+            <th>Type</th>
+            <th>Working</th>
+          
+        <tr>
+            <td><%= AllDetailtankResult.CAPACITY %></td>
+           <td><%= AllDetailtankResult.TYPE %></td>
+            <% if (AllDetailtankResult.ACTIVE==1) { %>
+                    <td>YES</td>
+                <% } else { %>
+                    <td>NO</td>
+                <% } %>
+         </tr>
+                
+                                
+    </table>
+</p>
+
+
+        
+    </div>
+<% include commonFooterScriptElements.html %>
+</body>
+</html>

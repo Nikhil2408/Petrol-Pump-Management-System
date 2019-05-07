@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
+<head>
+    <% include newheader.html %>
+</head>
+
+<body class="header-fixed header-fixed-space">
+  
+        
+       
+      <h2 align="center" >Transport Details</h2>
+        <table border="10" align="center" >
+        
+        <tr>
+            <th>Transport Name</th>
+            <th>Exists</th>
+            
+
+        </tr>
+        <% for(i in transportDetails) { %>
+        <tr>
+        <td><%= transportDetails[i].NAME %></td>
+        <% if(transportDetails[i].DEL==0) { %>
+        <td>YES</td>
+        <% } else { %>
+        <td>NO</td>
+        <% } %>
+        
+        
+        <% } %>
+    </tr>
+      </table>
+
+      <p align="right">
+
+            <button onclick="document.getElementById('addtransport').style.display='block'">+ Add TRANSPORT</button>
+            </p>
+                <div id="addtransport" class="modal">
+                    <form action="/app/transport" class="modal-content animate" method="post">
+                           
+                          
+                            <div class="container" align="center">
+                                    
+                              <label for="mode"><b>Mode</b></label>
+                              <input type="text" placeholder="Enter New Transport Name" name="name" required>
+                                <br>
+                             
+                                
+                                  <br>
+                              <button class="formbutton" type="submit" name="tp" value="1">Add</button>
+                              <button  class="cancelbtn" onclick="document.getElementById('addtransport').style.display='none'">Cancel</button>
+                            
+                            </div>
+                          </form> 
+                        </div>
+            
+            
+            
+                       
+                        <script type="text/javascript">
+                           
+                            var cancelbtn = document.querySelectorAll('.cancelbtn');
+                            for(var i=0;i<cancelbtn.length;++i){
+                                cancelbtn[i].addEventListener('click',function(event){
+                                    document.querySelector('#addtransport input[name=name]').value='';
+                                });
+                            }
+                            
+                            </script>
+</body>
+</html>

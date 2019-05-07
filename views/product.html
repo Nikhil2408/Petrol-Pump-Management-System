@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
+<head>
+    <% include commonHeadElements.html %>
+</head>
+
+<body class="header-fixed header-fixed-space">
+    <div class="wrapper homePage">
+
+        <% include header.html %>
+
+        
+        
+       
+      <h2>Product Details</h2>
+        <table border="5">
+        
+        <tr>
+            <th>Type</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Quantity_Left</th>
+        </tr>
+        <% for(i in productDetails) { %>
+        <tr>
+        <td><%= productDetails[i].TYPE %></td>
+        <td><%= productDetails[i].NAME %></td>
+        <td><%= productDetails[i].PRICE %></td>
+        <td><%= productDetails[i].QTY %></td>
+        <% } %>
+    </tr>
+      </table>
+
+
+
+
+
+     <h2>Product Details</h2>
+        <table border="5">
+        
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Quantity_Left</th>
+        </tr>
+        <% for(i in productDetails1) { %>
+        <tr>
+        <td><%= productDetails1[i].NAME %></td>
+        <td><%= productDetails1[i].PRICE %></td>
+        <td><%= productDetails1[i].QUANTITY_LEFT %></td>
+        <% } %>
+    </tr>
+      </table>
+
+
+
+
+
+
+       <h2>Product Details</h2>
+        <table border="5">
+        
+        <tr>
+            <th>Price</th>
+            <th>Quantity_Left</th>
+        </tr>
+        <% for(i in productDetails2) { %>
+        <tr>
+        <td><%= productDetails2[i].PRICE %></td>
+        <td><%= productDetails2[i].QUANTITY_LEFT %></td>
+        <% } %>
+    </tr>
+      </table>
+
+
+
+
+
+        <% include footer.html %>
+    </div>
+<% include commonFooterScriptElements.html %>
+</body>
+</html>

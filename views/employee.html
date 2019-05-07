@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
+<head>
+    <% include commonHeadElements.html %>
+</head>
+
+<body class="header-fixed header-fixed-space">
+    <div class="wrapper homePage">
+<h1>EmployeeRole</h1>
+
+<p>
+    <h2>ADMIN</h2>
+    <table border="5">
+        <th>FNAME</th>
+        <th>LNAME</th>
+        <% for(i in employeeResult1) {%>
+            <tr>
+                <td><%= employeeResult1[i].FNAME %></td>
+                <td><%= employeeResult1[i].LNAME %></td>
+               
+            </tr>
+        <% } %>
+    </table>
+</p>
+<p>
+    <h2>SUPERVISOR</h2>
+    <table border="5">
+        <th>FNAME</th>
+        <th>LNAME</th>
+        <% for(i in employeeResult) {%>
+            <tr>
+                <td><%= employeeResult[i].FNAME %></td>
+                <td><%= employeeResult[i].LNAME %></td>
+            </tr>
+        <% } %>
+    </table>
+</p>
+
+<p>
+        <h2>DSM</h2>
+        <table border="5">
+            <th>FNAME</th>
+            <th>LNAME</th>
+            <% for(i in employeeResult2) {%>
+                <tr>
+                    <td><%= employeeResult2[i].FNAME %></td>
+                    <td><%= employeeResult2[i].LNAME %></td>
+                </tr>
+            <% } %>
+        </table>
+    </p>
+
+
+   
+    </div>
+<% include commonFooterScriptElements.html %>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<div class="header-v6 header-classic-white header-sticky">
+    <div class="navbar mega-menu" role="navigation">
+        <div class="container">
+            <div class="menu-container">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+                <div class="navbar-brand"style="padding: 15px 0">
+                    <a href="/">
+                        <!--<img class="shrink-logo" src="/static/assets/img/logo1-default.png" alt="Logo">-->
+                        <img class="shrink-logo" src="" alt="Website Logo">
+                    </a>
+                </div>
+            </div>
+
+            <nav class="collapse navbar-collapse navbar-responsive-collapse" role="navigation" itemscope="itemscope" itemtype="http://www.schema.org/SiteNavigationElement">
+                <ul class="nav navbar-nav navbar-right">
+                    <% if(!currentUser) { %>
+                        <li itemprop="name">
+                            <a data-toggle="modal" href="#loginModal">LOGIN</a>
+                        </li>
+                    <% } else { %>
+                        <li>
+                            <!--<a>Welcome <%= currentUser.name %></a>-->
+                            <a href="/app/logout">LOGOUT</a>
+                        </li>
+                    <% } %>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>

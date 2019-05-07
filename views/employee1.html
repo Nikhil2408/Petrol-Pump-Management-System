@@ -1,0 +1,13 @@
+<!DOCTYPE HTML>
+    <body>
+        <table>
+            <th>Name</th>
+            <th>Pic</th>
+            <% for(i in res) { %>
+            <tr>
+                <td><%= res[i].FNAME %></td>
+                <td><img src="<%= '/static/uploads/'+res[i].PIC %>" alt="nahi hai" width="30" height="30"></td>
+            </tr>
+            <% } %>
+        </table>
+    </body>

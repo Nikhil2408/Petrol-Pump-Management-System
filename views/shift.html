@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
+<head>
+    <% include commonHeadElements.html %>
+</head>
+
+<body class="header-fixed header-fixed-space">
+    <div class="wrapper homePage">
+        <p>
+            <h2>All Available Shifts</h2>
+            <table border="5">
+                <th>Shift Type</th>
+                <th>START</th>
+                <th>END</th>
+                <% for(i in availableShiftResult) {%>
+                    <tr>
+                        <td><%= availableShiftResult[i].SHIFT_TYPE %></td>
+                        <td><%= availableShiftResult[i].START %></td>
+                        <td><%= availableShiftResult[i].END %></td>
+                    </tr>
+                <% } %>
+            </table>
+        </p>
+        <br>
+        <p>
+            <h2>All Available Supervisors</h2>
+            <table border="5">
+                <th>First Name</th>
+                <th>Last Name</th>
+                <% for(i in availableSupervisorResult) { %>
+                    <tr>
+                        <td><%= availableSupervisorResult[i].FNAME %></td>
+                        <td><%= availableSupervisorResult[i].LNAME %></td>
+                    </tr>
+                <% } %>
+            </table>
+        </p>
+        <p>
+            <h2>All Available Nozzle</h2>
+            <table border="5">
+                <th>Nozzle Number</th>
+                <% for(i in availableNozzleResult) { %>
+                    <tr>
+                        <td><%= availableNozzleResult[i].NOZZLE_NUMBER %></td>
+                    </tr>
+                <% } %>
+            </table>
+        </p>
+
+        <p>
+            <h2>All Available DSM(s)</h2>
+            <table border="5">
+                <th>First Name</th>
+                <th>Last Name</th>
+                <% for(i in availableDSMResult) { %>
+                    <tr>
+                        <td><%= availableDSMResult[i].FNAME %></td>
+                        <td><%= availableDSMResult[i].LNAME %></td>
+                    </tr>
+                <% } %>
+            </table>
+        </p>
+
+        <p>
+            <h2>Last Shift Details</h2>
+            <table border="5">
+                <th>NOZZLE_NUMBER</th>
+                <th>Type</th>
+                <th>Supervisor</th>
+                <th>DSM</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Nozzle Opening Reading</th>
+                <% for(i in endShiftResult) { %>
+                    <tr>
+                        <td><%= endShiftResult[i].NOZZLE_NUMBER %></td>
+                        <td><%= endShiftResult[i].TYPE %></td>
+                        <td><%= endShiftResult[i].SUPERVISOR %></td>
+                        <td><%= endShiftResult[i].DSM %></td>
+                        <td><%= endShiftResult[i].START_TIME %></td>
+                        <td><%= endShiftResult[i].END_TIME %></td>
+                        <td><%= endShiftResult[i].DOR %></td>
+                    </tr>
+                <% } %>
+            </table>
+        </p>
+        <p>
+            <h2>Current Shift Details</h2>
+            <table border="5">
+                <th>Shift Type</th>
+                <th>Supervisor</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <% for(i in viewShiftResult) { %>
+                    <tr>
+                        <td><%= viewShiftResult[i].SHIFT_TYPE %></td>
+                        <td><%= viewShiftResult[i].SUPERVISOR %></td>
+                        <td><%= viewShiftResult[i].START_TIME %></td>
+                        <td><%= viewShiftResult[i].END_TIME %></td>
+                    </tr>
+                <% } %> 
+            </table>
+        </p>
+    </div>
+<% include commonFooterScriptElements.html %>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <% include newheader.html %>
+<style>
+input[type=text]{
+    width: 60%;
+}
+</style>
+</head>
+<body>
+        <% if(currentUser) {%>
+    <form action="inozzle" method="get">
+            <p align="center">
+        <label for="ntype" class="filterlabel">Filter By Tank</label>
+        <select name="ntype" class="form-control" >
+            <% if(ntype=='All') {%>
+                <option value="All" selected="selected" class="form-control" >All</option>
+                <% } else { %>
+                    <option value="All" class="form-control" >All</option>
+                    <% } %>
+
+                    <% for(i in nozzleType) { %>
+                    <% if(ntype==nozzleType[i].TYPE) {%>
+                <option value="<%= nozzleType[i].TYPE %>" selected="selected"><%= nozzleType[i].TYPE %></option>
+                <% } else { %>
+                    <option value="<%= nozzleType[i].TYPE %>"><%= nozzleType[i].TYPE %></option>
+                <% } %>
+                    <% } %>
+
+        </select>
+        <button type="submit">Filter</button>
+    </p>
+    </form>
+
+        <p align="center">
+            <h2 align="center">Available Nozzles</h2>
+                <table align="center" class="table table-striped" >
+                    <th>Nozzle Number</th>
+                    <th>Type</th>
+                    <th>ACTIVE</th>
+                    <th>Change</th>
+                    <th>Delete</th>
+                    <% for(i in nozzleDetails) { %>
+                        <tr>
+                            <td><%= nozzleDetails[i].NOZZLE_NUMBER %></td>
+                            <td><%= nozzleDetails[i].TYPE %></td>
+                            <% if (nozzleDetails[i].ACTIVE==1) { %>
+                                <td>YES</td>
+                                <% } else { %>
+                                    <td>NO</td>
+                                <% } %>
+                            <td><button data-cap='<%= nozzleDetails[i].ID %>' class='editbtn' id="btn-<%=nozzleDetails[i].ID%>" value="<%= i %>" >EDIT</td>
+                                <% if (nozzleDetails[i].ACTIVE==1) { %>
+                                    <td><form action="/app/inozzle" method="POST"><button name="act" value="<%= '3 0 '+nozzleDetails[i].ID %>">Delete</button></form>
+                                    </td>
+                                    <% } else { %>
+                                        <td><form action="/app/inozzle" method="POST"><button name="act" value="<%= '3 1 '+nozzleDetails[i].ID %>">Undo</button></form>
+                                        </td>
+                                    <% } %>
+                            </tr>
+                    <% } %>
+                </table>
+            </p>
+    <p align="right">
+
+<button onclick="document.getElementById('addnozzle').style.display='block'">+ Add Nozzle</button>
+</p>
+    <div id="addnozzle" class="modal">
+        <form action="inozzle" class="modal-content animate" method="post">
+
+              
+                <div class="container" align="center">
+                        
+                  <label for="name"><b>Number</b></label>
+                  <input type="text"  class="form-control" placeholder="Enter Nozzle Number" name="nno" value="<%= (parseInt(nozzleDetails.length)+1) %>"required>
+                  <br>
+                    <label for="type"><b>Nozzle Type</b></label>
+                    <% for(i in tankTypes) {%>
+                    <input type="radio"  class="form-control" name="ntype" value="<%= tankTypes[i].TYPE %>"><%= tankTypes[i].TYPE %>
+                    &nbsp;&nbsp;
+                <% } %>
+                      <br>
+                  <button class="formbutton" type="submit" name="act" value="1 1">Add</button>
+                  <button  class="cancelbtn" onclick="document.getElementById('addnozzle').style.display='none'">Cancel</button>
+                
+                </div>
+              </form> 
+            </div>
+            <div id="editnozzle" class="modal">
+                    <form action="inozzle" class="modal-content animate"  method="post">
+                          <p align="center">
+                            <label for="name"><b>Number</b></label>
+                            <input type="text"  class="form-control" placeholder="Enter Nozzle Number" name="nno" value="" required/>
+                            <br>
+
+                            <label for="type"><b>Nozzle Type</b></label>
+                    <% for(i in tankTypes) {%>
+                    <input type="radio" name="ntype"  class="form-control" value="<%= tankTypes[i].TYPE %>"><%= tankTypes[i].TYPE %>
+                <% } %>
+                      <br>
+                              <button class="formbutton" type="submit" name="act">Update</button>
+                              <button  class="cancelbtn" onclick="document.getElementById('editnozzle').style.display='none'">Cancel</button>
+                            
+                            </p>
+
+                          </form> 
+                        </div>
+                        <script type="text/javascript">
+                            var editbtn = document.querySelectorAll('.editbtn');
+                            var b;
+                            console.log(editbtn);
+                            for(var i=0;i<editbtn.length;++i){
+                            editbtn[i].addEventListener('click',function(event){
+                                a = document.querySelector('#editnozzle button[name=act]').value='2 '+event.target.getAttribute('data-cap');
+                                console.log(a);
+                                document.getElementById('editnozzle').style.display='block';   
+                            });
+                            }
+                            var cancelbtn = document.querySelectorAll('.cancelbtn');
+                            for(var i=0;i<cancelbtn.length;++i){
+                                cancelbtn[i].addEventListener('click',function(event){
+                                    document.querySelector('#addnozzle input[name=nno]').value='';
+                                });
+                            }
+                            var cancelbtn = document.querySelectorAll('.cancelbtn');
+                            for(var i=0;i<cancelbtn.length;++i){
+                                cancelbtn[i].addEventListener('click',function(event){
+                                    document.querySelector('#editnozzle input[name=ntype]').value='';
+                                });
+                            }
+                            </script>
+<% } else { %>             
+    <h2>Login First</h2>  
+    <% } %>           
+</body>
+</html>

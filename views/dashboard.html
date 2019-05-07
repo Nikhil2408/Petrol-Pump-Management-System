@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
+<head>
+    <% include commonHeadElements.html %>
+</head>
+
+<body class="header-fixed header-fixed-space">
+    <div class="wrapper homePage">
+<h1>DashBoard</h1>
+<p>
+    <table border="5">
+        <tr>
+            <td>Name</td>
+            <td><%= petrolpumpResult.NAME %></td>
+        </tr>
+        <tr>
+                <td>Address</td>
+                <td><%= petrolpumpResult.ADDRESS %></td>
+            </tr>
+            <tr>
+                    <td>Phone</td>
+                    <td><%= petrolpumpResult.PHONE %></td>
+                </tr>
+                <tr>
+                        <td>Email</td>
+                        <td><%= petrolpumpResult.EMAIL %></td>
+                    </tr>
+                                
+    </table>
+</p>
+
+<p>
+    <h2>Today Product Sale</h2>
+    <table border="5">
+        <th>Product</th>
+        <th>Sale</th>
+        <% for(i in saleResult) {%>
+            <tr>
+                <td><%= saleResult[i].TYPE %></td>
+                <td><%= saleResult[i].SALE %></td>
+            </tr>
+        <% } %>
+    </table>
+</p>
+
+<p>
+        <h2>Current Quantity Left</h2>
+        <table border="5">
+            <th>Product</th>
+            <th>Quantity Left</th>
+            <% for(i in quantityResult) {%>
+                <tr>
+                    <td><%= quantityResult[i].TYPE %></td>
+                    <td><%= quantityResult[i].QTY_LEFT %></td>
+                </tr>
+            <% } %>
+        </table>
+    </p>
+
+<p>
+    <h2>Total Cash</h2>
+    <table border="5">
+        <th>CASH</th>
+        <tr>
+            <td>
+                <%= cashResult.TOTAL %>
+            </td>
+        </tr>
+    </table>
+</p>
+
+<p>
+        <h2>Total Bank Balance</h2>
+        <table border="5">
+            <th>Balance</th>
+            <tr>
+                <td>
+                    <%= bankResult.TOTAL %>
+                </td>
+            </tr>
+        </table>
+    </p>
+
+    <p>
+            <h2>Total Fleet Amount</h2>
+            <table border="5">
+                <th>Fleet Balance</th>
+                <tr>
+                    <td>
+                        <%= fleetResult.TOTAL %>
+                    </td>
+                </tr>
+            </table>
+        </p>
+        <p>
+            <table border="5">
+                <th>Shift STartTime</th>
+                <th>Shift EndTime</th>
+                <th>SuperVisor</th>
+                <tr>
+                    <td><%= shiftResult.START_TIME %></td>
+                    <td><%= shiftResult.END_TIME %></td>
+                    <td><%= shiftResult.SUPERVISOR %></td>
+                    
+                </tr>
+            </table>
+        </p>
+        <p>
+            <table border="5">
+                <th>DSM</th>
+                <th>Nozzle Number</th>
+                <th>Opening Reading</th>
+                <% for(i in shiftDetailsResult) { %>
+                    <tr>
+                        <td><%= shiftDetailsResult[i].DSM %></td>
+                        <td><%= shiftDetailsResult[i].NOZZLE_NUMBER %></td>
+                        <td><%= shiftDetailsResult[i].DOR %></td>
+                        
+                    </tr>
+                <% } %>
+            </table>
+        </p>
+    </div>
+<% include commonFooterScriptElements.html %>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
+<head>
+    <% include newheader.html %>
+
+</head>
+
+<body class="header-fixed header-fixed-space">
+    <% if(msg){ %>
+    <h1 align="center" style="color: red;" ><%= msg %></h1>
+    <% } else {%>
+    <h1>Shift Report</h1>
+    <div class="container">
+    <p>
+        <h2>Shift Details</h2>
+        <table border="5" align="center" class="table table-striped">
+            <th>Shift Type</th>
+            <td><%= shiftDetailsResult.SHIFT_TYPE %></td>
+            <th>Date</th>
+            <td><%= shiftDetailsResult.DATE.toString().substring(0,24) %></td>
+            <th>Supervisor</th>
+            <td><%= shiftDetailsResult.SUPERVISOR %></td>
+        </table>
+    </p>
+    <br>
+    <p>
+        <h2>Electronic Totalizer</h2>
+        <table border="5" align="center" class="table table-striped">
+            <th>Nozzle</th>
+            <th>Product</th>
+            <th>Assigned To</th>
+            <th>Digital Opening Reading</th>
+            <th>Digital CLosing Reading</th>
+            <th>Pump Test</th>
+            <th>Sale</th>
+            <% for(i in elecTotalizerResult) { %>
+                <tr>
+                    <td><%= elecTotalizerResult[i].NOZZLE %></td>
+                    <td><%= elecTotalizerResult[i].PRODUCT %></td>
+                    <td><%= elecTotalizerResult[i].ASSIGNTED_TO %></td>
+                    <td><%= elecTotalizerResult[i].DOR %></td>
+                    <td><%= elecTotalizerResult[i].DCR %></td>
+                    <td><%= elecTotalizerResult[i].PUMP_TEST %></td>
+                    <td><%= elecTotalizerResult[i].SALE %></td>
+                    
+                </tr>
+            <% } %>
+            <% for (i in elecTotalizerResult1) { %>
+                <tr>
+                <td colspan="4">TOTAL&nbsp;<%= elecTotalizerResult1[i].PRODUCT %></td>
+                <td><%= elecTotalizerResult1[i].DISP %></td>
+                <td><%= elecTotalizerResult1[i].PUMPTEST %></td>
+                <td><%= elecTotalizerResult1[i].SALE %></td>
+            </tr>
+            <% } %>
+        </table>
+    </p>
+    <br>
+    <p>
+        <h2>Manual Totalizer</h2>
+        <table border="5" align="center" class="table table-striped">
+            <th>Nozzle</th>
+            <th>Product</th>
+            <th>Assigned To</th>
+            <th>Analog Opening Reading</th>
+            <th>Analog CLosing Reading</th>
+            <th>Pump Test</th>
+            <th>Sale</th>
+            <% for(i in manTotalizerResult) { %>
+                <tr>
+                    <td><%= manTotalizerResult[i].NOZZLE %></td>
+                    <td><%= manTotalizerResult[i].PRODUCT %></td>
+                    <td><%= manTotalizerResult[i].ASSIGNTED_TO %></td>
+                    <td><%= manTotalizerResult[i].AOR %></td>
+                    <td><%= manTotalizerResult[i].ACR %></td>
+                    <td><%= manTotalizerResult[i].PUMP_TEST %></td>
+                    <td><%= manTotalizerResult[i].SALE %></td>
+                    
+                </tr>
+            <% } %>
+            <% for (i in manTotalizerResult1) { %>
+                <tr>
+                <td colspan="4">TOTAL&nbsp;<%= manTotalizerResult1[i].PRODUCT %></td>
+                <td><%= manTotalizerResult1[i].DISP %></td>
+                <td><%= manTotalizerResult1[i].PUMPTEST %></td>
+                <td><%= manTotalizerResult1[i].SALE %></td>
+            </tr>
+            <% } %>
+        </table>
+    </p>
+
+    <p>
+        <h2>Difference Between Electronic and Manual Sale</h2>
+        <table border="5" align="center" class="table table-striped">
+            <th>Product</th>
+            <th>Pump Test</th>
+            <th>Difference</th>
+            <% for(i in emdiffResult) {%>
+                <tr>
+                    <td><%= emdiffResult[i].PRODUCT %></td>
+                    <td><%= emdiffResult[i].PUMPTEST %></td>
+                    <td><%= Math.abs(emdiffResult[i].DIFFERENCE) %></td>
+                </tr>
+            <% } %>
+        </table>
+    </p>
+    <P>
+    
+        <H2>Tank Data</H2>
+        <table border="5" align="center" class="table table-striped" >
+            <th>Tank Name</th>
+            <th>Opening Dip</th>
+            <th>Opening Volume</th>
+            <th>Closing Dip</th>
+            <th>Closing Volume</th>
+            <th>Sold Out</th>
+            <% for (var i=0 ; i<tankheightResult2.length ; ++i ) { %>
+                <tr>
+                <td><%= tankheightResult2[i].TYPE %></td>
+                <td><%= tankheightResult2[i].OPEN_READING %></td>
+                <td><%= tankheightResult2[i].OPEN %></td>
+                <td><%= tankheightResult1[i].CLOSE_READING %></td>
+                <td><%= tankheightResult1[i].CLOSE %></td>
+                <td><%= tankheightResult2[i].OPEN-tankheightResult1[i].CLOSE %></td>
+                </tr>
+            <% } %>
+        </table>
+    </P>
+
+    <p>
+        <h2>Difference Between TANK SALE and METERED SALE </h2>
+        <table border="5" align="center" class="table table-striped">
+            <th>Tank Name</th>
+            <th>Qty by Totalizer</th>
+            <th>Qty by Tank</th>
+            <th>Loss(-)/Gain(+)</th>
+            <th>Amount</th>
+            <% for (var i=0;i<elecTotalizerResult1.length;i+=1) { %>
+                <tr>
+                <td><%= elecTotalizerResult1[i].PRODUCT %></td>
+                <td><%= elecTotalizerResult1[i].SALE %></td>
+                <td><%= tankheightResult2[i].OPEN-tankheightResult1[i].CLOSE %></td>
+                <td><%= elecTotalizerResult1[i].SALE-(tankheightResult2[i].OPEN-tankheightResult1[i].CLOSE) %></td>
+                <td><%= (elecTotalizerResult1[i].SALE-(tankheightResult2[i].OPEN-tankheightResult1[i].CLOSE))*priceResult[i].PRICE %></td>
+            </tr>
+            <% } %>
+        </table>
+    </p>
+
+    
+        <P>
+            <h2>Sale Mode Wise</h2>
+            <table border="5" align="center" class="table table-striped">
+                <th>NOZZLE NUMBER</th>
+                <th>ASSIGNED_TO</th>
+                <th>Mode Of Payment</th>
+                <th>Amount</th>
+                <% for(i in actResult) { %>
+                    <tr>
+                        <td><%= actResult[i].NOZZLE_NUMBER %></td>
+                        <td><%= actResult[i].FNAME %></td>
+                        <td><%= actResult[i].MODE %></td>
+                        <td><%= actResult[i].AMOUNT %></td>
+                    </tr>
+                <% } %>
+            </table>
+        </P>
+        <p>
+                <h2>Report</h2>
+                <table border="5" align="center" class="table table-striped">
+                    <th>Nozzle Number</th>
+                    <th>Assigned to</th>
+                    <th>Product</th>
+                    <th>Sale</th>
+                    <th>Estimated Collection</th>
+                    <th>Actual Collection</th>
+                    <th>Shortage</th>
+                    <% for(var i=0;i<estResult.length;i+=1) { %>
+                        <tr>
+                            <td><%= estResult[i].NOZZLE_NUMBER %></td>
+                            <td><%= estResult[i].ASSIGNED_TO %></td>
+                            <td><%= estResult[i].TYPE %></td>
+                            <td><%= estResult[i].SALE %></td>
+                            <td><%= estResult[i].COLLECTION %></td>
+                            <td><%= actResult1[i].COLLECTION %></td>
+                            <td><%= actResult1[i].COLLECTION-estResult[i].COLLECTION %></td>
+                        </tr>
+                    <% } %>
+                </table>
+            </p>
+        </div>
+    <% } %>
+<% include commonFooterScriptElements.html %>
+</body>
+</html>

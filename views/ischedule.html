@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <% include newheader.html %>
+        <style>
+        input[type=text],input[type=number]{
+            width: 60%;
+        }
+        </style>
+</head>
+<body>
+        <% if(currentUser) {%>
+
+        <p align="center">
+            <h2 align="center">Available Schedule</h2>
+                <table align="center" class="table table-striped">
+                   
+                    <th>Starttime</th>
+                    <th>Endtime</th>
+                    <th>Shift type</th>
+                    <th>Supervisor_id</th>
+                    <th>First name</th>
+                    <th>Last name</th>
+                    <th>Active</th>
+                    <th>Delete</th>
+
+                    <th>Change</th>
+                    <% for(i in ScheduleResult) { %>
+                        <tr>
+                            <td><%= ScheduleResult[i].STARTTIME.toString().substring(16,24) %></td>
+                            <td><%= ScheduleResult[i].ENDTIME.toString().substring(16,24) %></td>
+                            <td><%= ScheduleResult[i].SHIFT_TYPE %></td>
+                            <td><%= ScheduleResult[i].SID %></td>
+                            <td><%= ScheduleResult[i].FNAME %></td>
+                            <td><%= ScheduleResult[i].LNAME %></td>
+                            <% if (ScheduleResult[i].ACTIVE==1) { %>
+                                <td>YES</td>
+                                <% } else { %>
+                                    <td>NO</td>
+                                <% } %>
+                            <td><button data-cap='<%= ScheduleResult[i].ID %>' class='editbtn' id="btn-<%=ScheduleResult[i].ID%>" value="<%= i %>" >EDIT</td>
+                                <% if (ScheduleResult[i].ACTIVE==1) { %>
+                                    <td><form action="/app/ischedule" method="POST"><button name="scid" value="<%= '3 0 '+ScheduleResult[i].ID %>">Delete</button></form>
+                                    </td>
+                                    <% } else { %>
+                                        <td><form action="/app/ischedule" method="POST"><button name="scid" value="<%= '3 1 '+ScheduleResult[i].ID %>">Undo</button></form>
+                                        </td>
+                                    <% } %>
+                            </tr>
+
+                    <% } %>
+                </table>
+            </p>
+    <p align="right">
+
+<button onclick="document.getElementById('addschedule').style.display='block'">+ Add Schedule</button>
+</p>
+    <div id="addschedule" class="modal">
+        <form action="ischedule" class="modal-content animate" method="post">
+                <div class="imgcontainer">
+                  <img src="img_avatar2.png" alt="Add Schedule" class="avatar">
+                </div>
+              
+                <div class="container" align="center">
+                        
+                  <label for="starttime"><b>Start time</b></label>
+                  <input type="text" placeholder="Enter start time" name="starttime" class="form-control" required>
+                    <br>
+                    <label for="endtime"><b>End time</b></label>
+                    <input type="text" placeholder="Enter end time" name="endtime" class="form-control" required>
+                      <br>
+
+                      <label for="shifttype"><b>Shift number</b></label>
+                  <input type="text" placeholder="Enter shift no." name="shifttype" class="form-control" required>
+                    <br>
+                    <label for="sid"><b>Supervisor</b></label>
+                    <div class="form-group">
+                  <select name="sid" class="form-control" style="width:50%;">
+                      <% for(i in availableSupervisorResult) { %>
+                        <option value="<%= availableSupervisorResult[i].ID %>"><%= availableSupervisorResult[i].FNAME %></option>
+                    <% } %>
+                  </select>
+                  </div>
+                    <br>
+
+
+                
+                  <button class="formbutton" type="submit" name="scid" value="<%= '1 1' %>">Add</button>
+                  
+                
+                  <button class="cancelbtn" onclick="document.getElementById('addschedule').style.display='none'">Cancel</button>
+                </form> 
+                </div>
+              
+            </div>
+
+
+
+            <div id="editschedule" class="modal">
+                    <form action="ischedule" class="modal-content animate"  method="post">
+                            <div class="imgcontainer">
+                              <img src="img_avatar2.png" alt="Edit Schedule" class="avatar">
+                            </div>
+                          
+                            <div class="container" align="center">
+                                <label for="starttime"><b>Start time</b></label>
+                                <input type="text" placeholder="Enter start time" name="starttime" class="form-control" required>
+                                  <br>
+                                  <label for="endtime"><b>End time</b></label>
+                                  <input type="text" placeholder="Enter end time" name="endtime" class="form-control" required>
+                                    <br>
+              
+                                    <label for="sid"><b>Type</b></label>
+                                    <div class="form-group">
+                                    <select name="sid" class="form-control" style="width:50%;">
+                                        <% for(i in availableSupervisorResult) { %>
+                                          <option value="<%= availableSupervisorResult[i].ID %>"><%= availableSupervisorResult[i].FNAME %></option>
+                                      <% } %>
+                                    </select>
+                                    </div>
+                                        <br>
+                             
+                              <button class="formbutton" type="submit" name="scid">Update</button>
+                              <button  class="cancelbtn" onclick="document.getElementById('editschedule').style.display='none'">Cancel</button>
+                            
+                            </div>
+                          </form> 
+                        </div>
+                        <script type="text/javascript">
+                            var editbtn = document.querySelectorAll('.editbtn');
+                            var b;
+                            console.log(editbtn);
+                            for(var i=0;i<editbtn.length;++i){
+                            editbtn[i].addEventListener('click',function(event){
+                                a = document.querySelector('#editschedule button[name=scid]').value='2 '+event.target.getAttribute('data-cap');
+                                console.log(a);
+                                document.getElementById('editschedule').style.display='block';   
+                            });
+                            }
+                            var cancelbtn = document.querySelectorAll('.cancelbtn');
+                            for(var i=0;i<cancelbtn.length;++i){
+                                cancelbtn[i].addEventListener('click',function(event){
+                                    document.querySelector('#addschedule input[name=starttime]').value='';
+                                });
+                            }
+                            var cancelbtn = document.querySelectorAll('.cancelbtn');
+                            for(var i=0;i<cancelbtn.length;++i){
+                                cancelbtn[i].addEventListener('click',function(event){
+                                    document.querySelector('#editschedule input[name=starttime]').value='';
+                                });
+                            }
+                            
+                            </script>
+     <% } else { %>             
+        <h2>Login First</h2>  
+        <% } %>                    
+</body>
+</html>

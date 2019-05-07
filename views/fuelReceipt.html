@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
+<head>
+    <% include newheader.html %>
+</head>
+
+<body class="header-fixed header-fixed-space">
+        
+       
+      <h2 align="center" >Fuel Receipt</h2>
+        <a href="/app/transport"><button style="float:right;">TRANSPORT</button></a>
+        <br><br><br>
+        <table border="10">
+        
+        <tr>
+            <th>TT No.</th>
+            <th>Invoice_No.</th>
+            <th>Invoice_Date</th>
+            <th>Invoice_Amount</th>
+            <th>Invoice_Quantity</th>
+            <th>Invoice_Tempeature</th>
+            <th>RO_Temperature</th>
+            <th>INVOICE_DENSITY</th>
+            <th>RO_COMPOSITE_DENSITY</th>
+            <th>TVA</th>
+            <th>SHORT_REPORT</th>
+            <th>FREIGHT_INVOICE_NO</th>
+            <th>FREIGHT_INVOICE_AMOUNT</th>
+            <th>TRANSPORT NAME</th>
+
+        </tr>
+        <% for(i in fuelDetails) { %>
+        <tr>
+        <td><%= fuelDetails[i].TT %></td>
+        <td><%= fuelDetails[i].INVOICE_NO %></td>
+        <td><%= fuelDetails[i].INVOICE_DATE %></td>
+        <td><%= fuelDetails[i].INVOICE_AMOUNT %></td>
+        <td><%= fuelDetails[i].INVOICE_QTY %></td>
+        <td><%= fuelDetails[i].INVOICE_TEMP %></td>
+        <td><%= fuelDetails[i].RO_TEMP %></td>
+        <td><%= fuelDetails[i].INVOICE_DENSITY %></td>
+        <td><%= fuelDetails[i].RO_COMPOSITE_DENSITY %></td>
+        <td><%= fuelDetails[i].TVA %></td>
+        <td><%= fuelDetails[i].SHORT_REPORT %></td>
+        <td><%= fuelDetails[i].FREIGHT_INVOICE_NO %></td>
+        <td><%= fuelDetails[i].FREIGHT_INVOICE_AMOUNT %></td>
+        <td><%= fuelDetails[i].NAME %></td>
+        <% } %>
+    </tr>
+      </table>
+
+
+
+
+
+</body>
+</html>

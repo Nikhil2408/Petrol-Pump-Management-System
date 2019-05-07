@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <% include newheader.html %>
+</head>
+<body>
+        <% if(currentUser) {%>
+<form action="ifinance" method="get">
+    <p align="center" >
+    <label for="from">FROM</label>
+    <input type="date" name="from">
+    <label for="to">TO</label>
+    <input type="date" name="to">
+    <br>
+    <% if(f1) { %>
+        <input type="checkbox" name="f1" value="1" checked>
+    <% } else { %>
+        <input type="checkbox" name="f1" value="1">
+    <% } %>
+    <label for="f1">Nozzle-Wise</label>
+    <select name="nozzle">
+        <% for(i in nozzleCountResult) { %>
+            <% if(nozzle==nozzleCountResult[i].NOZZLE_NUMBER) { %>
+                <option value="<%= nozzleCountResult[i].NOZZLE_NUMBER %>" selected="selected"><%= nozzleCountResult[i].NOZZLE_NUMBER %></option>
+            <% } else { %>
+                <option value="<%= nozzleCountResult[i].NOZZLE_NUMBER %>"><%= nozzleCountResult[i].NOZZLE_NUMBER %></option>
+            <% } %>
+        <% } %>
+    </select>
+    <br>
+    <% if(f2) { %>
+        <input type="checkbox" name="f2" value="1" checked>
+    <% } else { %>
+        <input type="checkbox" name="f2" value="1">
+    <% } %>
+    
+    <label for="f2">Supervisor-Wise</label>
+    <select name="supervisor">
+        <% for(i in availablePersonResult) { %>
+            <% if(availablePersonResult[i].TYPE=='SUPERVISOR') { %>
+                    <% if(supervisor==availablePersonResult[i].FNAME) {%>
+                        <option value="<%= availablePersonResult[i].FNAME %>" selected="selected"><%= availablePersonResult[i].FNAME %></option>
+                    <% } else { %>
+                        <option value="<%= availablePersonResult[i].FNAME %>"><%= availablePersonResult[i].FNAME %></option>
+                    <% } %>
+            <% } %>
+        <% } %>
+    </select>
+    <br>
+    
+    <% if(f3) { %>
+        <input type="checkbox" name="f3" value="1" checked>
+    <% } else { %>
+        <input type="checkbox" name="f3" value="1">
+    <% } %>
+    <label for="f3">DSM-Wise</label>
+    <select name="dsm">
+        <% for(i in availablePersonResult) { %>
+            <% if(availablePersonResult[i].TYPE=='DSM') { %>
+                <% if(dsm==availablePersonResult[i].FNAME) {%>
+                    <option value="<%= availablePersonResult[i].FNAME %>" selected="selected"><%= availablePersonResult[i].FNAME %></option>
+                    <% } else { %>
+                        <option value="<%= availablePersonResult[i].FNAME %>"><%= availablePersonResult[i].FNAME %></option>
+                    <% } %>
+            <% } %>
+        <% } %>
+    </select>
+    <br>
+    <% if(f4) { %>
+        <input type="checkbox" name="f4" value="1" checked>
+    <% } else { %>
+        <input type="checkbox" name="f4" value="1">
+    <% } %>
+    <label for="f4">Mode Of Payment-Wise</label>
+    <select name="mode">
+        <% for(i in paymentModes) { %>
+                <% if(mode==paymentModes[i].MODE) {%>
+                    <option value="<%= paymentModes[i].MODE %>" selected="selected"><%= paymentModes[i].MODE %></option>
+                    <% } else { %>
+                        <option value="<%= paymentModes[i].MODE %>"><%= paymentModes[i].MODE %></option>
+                    <% } %>
+        <% } %>
+    </select>
+    <br>
+    <% if(f5) { %>
+        <input type="checkbox" name="f5" value="1" checked>
+    <% } else { %>
+        <input type="checkbox" name="f5" value="1">
+    <% } %>
+    <label for="f5">Fuel Type-Wise</label>
+    <select name="type">
+        <% for(i in tankType) { %>
+                <% if(type==tankType[i].TYPE) {%>
+                    <option value="<%= tankType[i].TYPE %>" selected="selected"><%= tankType[i].TYPE %></option>
+                    <% } else { %>
+                        <option value="<%= tankType[i].TYPE %>"><%= tankType[i].TYPE %></option>
+                    <% } %>
+        <% } %>
+    </select>
+    <br>
+    <button type="submit">Filter</button>
+    </p>
+    <table border="5" align="center">
+        <tr>
+            <th>Supervisor Name</th>
+            <th>ASSIGNED TO </th>
+            <th>Type of product</th>
+            <th>Nozzle number</th>
+            <th>Shift Start_Time</th>
+            <th>User_ID</th>
+            <th>Sales</th>
+            <th>Shift_Collection_ID</th>
+            <th>Mode</th>
+            <th>Amount</th>
+        </tr>
+        <% for(i in dsmDetails1) { %>
+            <% if((f1=='1' && dsmDetails1[i].NOZZLE_NUMBER==nozzle) || f1==undefined) { %>
+            <% if((f2=='1' && dsmDetails1[i].SUPERVISOR==supervisor) || f2==undefined){ %>
+            <% if((f3=='1' && dsmDetails1[i].DSM==dsm) || f3==undefined){ %>
+            <% if((f4=='1' && dsmDetails1[i].MODE==mode) || f4==undefined){ %>
+            <% if((f5=='1' && dsmDetails1[i].TYPE==type) || f5==undefined){ %>
+                <tr>
+                    <td><%= dsmDetails1[i].SUPERVISOR %></td>
+                    <td><%= dsmDetails1[i].DSM %></td>
+                    <td><%= dsmDetails1[i].TYPE %></td>
+                    <td><%= dsmDetails1[i].NOZZLE_NUMBER %></td>
+                    <td><%= dsmDetails1[i].START_TIME.toString().substring(0,24) %></td>
+                    <td><%= dsmDetails1[i].USER_ID %></td>
+                    <td><%= dsmDetails1[i].SALE %></td>
+                    <td><%= dsmDetails1[i].ID %></td>
+                    <td><%= dsmDetails1[i].MODE %></td>
+                    <td><%= dsmDetails1[i].AMOUNT %></td>
+                   
+                </tr>
+            <% } %>
+            <% } %>
+            <% } %>
+            <% } %>
+            <% } %>
+        <% } %>
+    </table>
+</form>
+<% } else { %>             
+    <h2>Login First</h2>  
+    <% } %> 
+</body>
+</html>

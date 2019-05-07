@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <style>
+      tr.hover {
+   cursor: pointer;
+   /* whatever other hover styles you want */
+}
+input[type=text],input[type=number],input[type=date]{
+  width: 60%;
+}
+</style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script>
+        $(document).ready(function(){
+          $('.fuelreceipt').hide();
+          $('.fuelreceived').change(function(){
+            if($(this).is(':checked')){
+              $('.fuelreceipt').show();
+            }
+            else{
+              $('.fuelreceipt').hide();
+            }
+          });
+          $('.shift').click(function(){
+            window.location=$(this).find('a').attr('href');
+          }).hover(function(){
+            $(this).toggleClass('hover');
+          });
+        });
+        </script>
+        <% include newheader.html %>
+        <style>
+          /* Set height of body and the document to 100% to enable "full page tabs" */
+body, html {
+height: 100%;
+margin: 0;
+font-family: Arial;
+}
+
+/* Style tab links */
+.tablink {
+background-color: #555;
+color: white;
+float: left;
+border: none;
+outline: none;
+cursor: pointer;
+padding: 14px 16px;
+font-size: 17px;
+width: 33.33%;
+}
+
+.tablink:hover {
+background-color: #777;
+}
+
+/* Style the tab content (and add height:100% for full page content) */
+.tabcontent {
+color: white;
+display: none;
+padding: 100px 20px;
+height: 100%;
+}
+
+#Home {background-color: red;}
+#News {background-color: blue;}
+#About {background-color: orange;}
+/* Bordered form */
+form {
+  border: 3px solid #f1f1f1;
+}
+
+/* Full-width inputs */
+input[type=text], input[type=password] ,select{
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+/* Set a style for all buttons */
+button {
+  background-color: blue;
+  color: white;
+  padding: 14px 20px;
+  margin: 0px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+.formbutton{
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 50%;
+}
+/* Add a hover effect for buttons */
+button:hover {
+  opacity: 0.8;
+}
+
+
+
+option{
+  color: red;
+  font-weight:400;
+  font-size: 15px;
+
+}
+table {
+  border-collapse: collapse;
+  width: 50%;
+}
+
+th, td {
+  text-align: center;
+  padding: 8px;
+  font-weight: bold;
+  color: black;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+
+th {
+  background-color: #4CAF50;
+  color: white;
+}
+
+label{
+  color: darkgreen;
+  font-weight: bold;
+  font-style: italic;
+}
+      </style>
+        <script>
+          // Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click(); 
+            function openPage(pageName, elmnt, color) {
+    // Hide all elements with class="tabcontent" by default */
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+
+    // Remove the background color of all tablinks/buttons
+    tablinks = document.getElementsByClassName("tablink");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].style.backgroundColor = "";
+    }
+
+    // Show the specific tab content
+    document.getElementById(pageName).style.display = "block";
+
+    // Add the specific color to the button used to open the tab content
+    elmnt.style.backgroundColor = color;
+}
+
+
+        </script>
+    </head>
+    <body>
+        <% if(currentUser) {%>
+            <button class="tablink" onclick="openPage('Home', this, 'red')">Create Shift</button>
+            <button class="tablink" onclick="openPage('News', this, 'blue')" id="defaultOpen">View Shift</button>
+            <button class="tablink" onclick="openPage('About', this, 'orange')">End Shift</button>
+            <div  class="nav nav-tabs">
+            <div id="Home" class="tabcontent">
+              <h3 align="center" >Create Shift</h3>
+              <% if(availableShiftResult.length==0) { %>
+                <h2 align="center" >No More Shifts To Create</h2>
+                  <% } else { %>
+              <form action="ishift" method="post">
+                <p align="center" >
+                  <label for="stype">Available Shifts</label>
+                  <select name="stype" class="form-control" style="width:50%;">
+                    <% for(i in availableShiftResult) { %>
+                      <option value="<%= availableShiftResult[i].ID %>"><%= availableShiftResult[i].SHIFT_TYPE+'-'+(availableShiftResult[i].STARTTIME).toString().substring(0,24) %></option>
+                    <% } %>
+                  </select>
+                  <br>
+                  <label for="supervisor">Supervisor</label>
+                  <select name="supervisor" class="form-control"  style="width:50%;">
+                    <% for(i in availableSupervisorResult){ %>
+                     <% if((availableSupervisorResult[i].TYPE).toString()=='SUPERVISOR') { %> 
+                        <option value="<%= availableSupervisorResult[i].ID %>"><%= availableSupervisorResult[i].FNAME+' '+availableSupervisorResult[i].LNAME %></option>
+                       <% } %> 
+                      <% } %>
+                  </select>
+                  <br>
+                  </p>
+                  <table border="5" align="center"  class="table table-striped" >
+                      <th>Nozzle Number</th>
+                      <th>DSM</th>
+                      <th>Analog Opening Reading</th>
+                      <th>Digital Opening Reading</th>
+                  <% for(i in availableNozzleResult) { %>
+                    <tr>
+                    <td><input type="text" name="" value="<%= availableNozzleResult[i].NOZZLE_NUMBER %>" disabled></td>
+                    <td><select name="<%= 'user'+i %>" class="form-control" >
+                      <% for(j in availableSupervisorResult) { %>
+                        <% if((availableSupervisorResult[j].TYPE).toString()=='DSM') { %>
+                          <option value="<%= availableSupervisorResult[j].ID %>"><%= availableSupervisorResult[j].FNAME+' '+availableSupervisorResult[j].LNAME %></option>
+                          <% } %>
+                      <%  } %>
+                    </select></td>
+                    <td><input type="text" name="<%= 'aor'+i %>" value="<%= availableNozzleResult[i].AOR %>"  class="form-control" ></td>
+                    <td><input type="text" name="<%= 'dor'+i %>" value="<%= availableNozzleResult[i].DOR %>"  class="form-control" ></td>
+                    
+                    
+                  </tr>
+                  <% } %>
+                </table>
+                <table border="5" align="center" class="table table-striped" >
+                  <tr>
+                  <th>Tank Type</th>
+                  <th>Opening Reading</th>
+                  </tr>
+                    <% for(i in tanksResult){ %>
+                      <tr>
+                        <td>
+                          <input type="text" name="<%= 'ty'+i %>" value="<%= tanksResult[i].TYPE %>" class="form-control" >
+                        </td>
+                        <td>
+                          <input type="text" name="<%= 'cr'+i %>" value="<%= tanksResult[i].CLOSE_READING %>" class="form-control" >
+                        </td>
+                      </tr>
+                    <% } %>
+                </table>
+                <p align="center" >
+                  <button type="submit" name="act" value="<%= '1 '+availableNozzleResult.length+' '+tanksResult.length %>">Add Shift</button>
+                </p>
+              </form>
+              <% } %>
+            </div>
+            
+            <div id="News" class="tabcontent">
+              <h3 align="center" >Shifts</h3>
+              <form action="ishift" method="get">
+                <p align="center" >
+                  <% if(dateactive) { %>
+                    <input type="checkbox" name="dateactive" value="1" checked="checked" class="form-control" >
+                  <% } else {%>
+                <input type="checkbox" name="dateactive" value="1" class="form-control" >
+                    <% } %>
+                <label for="from">FROM</label>
+                    <% if(dateactive) { %>
+                      <input type="date" name="from" value="<%= from %>" class="form-control" >
+                    <% } else {%>
+                <input type="date" name="from" class="form-control" >
+                      <% } %>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <label for="to">TO</label>
+                <% if(dateactive) { %>
+                <input type="date" name="to" value="<%= to %>" class="form-control" >
+                <% } else {%>
+                  <input type="date" name="to" class="form-control" >
+                <% } %>
+                <br><br>
+                <% if(countactive) { %>
+                <input type="checkbox" name="countactive" value="1" checked="checked" class="form-control" >
+                <% } else {%>
+                  <input type="checkbox" name="countactive" value="1" class="form-control" >
+                <% } %>
+
+                <label for="count">Last n shifts</label>
+                <% if(countactive) { %>
+                <input type="number" name="count" value="<%= count %>" class="form-control" >
+                <% } else {%>
+                  <input type="number" name="count" class="form-control" >
+                <% } %>
+                <br>
+                <button type="submit" name="act" value="3 1" style="background-color: red;">Filter Shifts</button>
+              </p>
+              </form>
+              <table border="5" align="center">
+                <th>Date</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Supervisor</th>
+                <% for(i in viewShiftResult) { %>
+                  
+                  <tr class='shift'>
+                    <td><a href="<%= '/app/report?sid='+viewShiftResult[i].ID %>"></a><%= (viewShiftResult[i].START_TIME).toString().substring(0,15) %></a></td>
+                    <td><%= (viewShiftResult[i].START_TIME).toString().substring(16,24) %></td>
+                    <td><%= (viewShiftResult[i].END_TIME).toString().substring(16,24) %></td>
+                    <td><%= viewShiftResult[i].FNAME+' '+viewShiftResult[i].LNAME %></td>
+                  </tr>
+                
+                <% } %>
+              </table>
+            </div>
+            
+            
+            <div id="About" class="tabcontent">
+              <h3>End Shift</h3>
+              <% if(endShiftResult.length==0) { %>
+                <h2 align="center" >No More Shifts To End</h2>
+                  <% } else { %>
+                    <form action="ishift" method="post">
+                        <table border="5" align="center"  class="table table-striped" >
+                            <th>Nozzle Number</th>
+                            <th>DSM</th>
+                            <th>Analog Opening Reading</th>
+                            <th>Analog Closing Reading</th>
+                            <th>Digital Opening Reading</th>
+                            <th>Digital Closing Reading</th>
+                            <th>Pump Test</th>
+                            <th>Self</th>
+                        <% for(i in endShiftResult) { %>
+                          <tr>
+                          <td><input type="text"  class="form-control" name="nozzle" value="<%= availableNozzleResult[i].NOZZLE_NUMBER %>" disabled></td>
+                          <td><input type="text"  class="form-control" value="<%= endShiftResult[i].FNAME+' '+endShiftResult[i].LNAME %>" disabled ></td>
+                          <td><input type="text"  class="form-control" value="<%= endShiftResult[i].AOR %>" disabled></td>
+                          <td><input type="text"  class="form-control" name="<%= 'acr'+i %>"></td>
+                          <td><input type="text"  class="form-control" value="<%= endShiftResult[i].DOR %>" disabled></td>
+                          <td><input type="text"  class="form-control" name="<%= 'dcr'+i %>"></td>
+                          <td><input type="text"  class="form-control" name="<%= 'pt'+i %>"></td>
+                          <td><input type="text"  class="form-control" name="<%= 'self'+i %>"></td>
+                        </tr>
+                        <% } %>
+                      </table>
+                      <br><br><br>
+                <table border="5" align="center"  class="table table-striped" >
+                  <th>Nozzle Number</th>
+                  <th>Collection Mode</th>
+                  <th>Amount</th>
+                  <% for(i in availableNozzleResult) { %>
+                    <% for(j in paymentModes) { %>
+                      <tr>
+                          <td><input type="text"  class="form-control" name="" value="<%= availableNozzleResult[i].NOZZLE_NUMBER %>" disabled></td>
+                          <td><input type="text"  class="form-control" name="" value="<%= paymentModes[j].MODE %>" disabled></td>
+                          <td><input type="text"  class="form-control" name="<%= 'amt'+i+' '+j %>"></td>
+                      </tr>
+                    <% } %>
+                  <% } %>
+                </table>
+              <table border="5" align="center" class="table table-striped" >
+                <tr>
+                  <th>TYPE</th>
+                  <th>OPENING READING</th>
+                  <th>CLOSING READING</th>
+                </tr>
+                <% for(i in tanksResult) {%>
+                  <tr>
+                  <td>
+                    <input type="text"  class="form-control" name="<%= 'ty'+i %>" value="<%= tanksResult1[i].TYPE %>" disabled>
+                  </td>
+                  <td>
+                    <input type="text"  class="form-control" name="<%= 'or'+i %>" value="<%= tanksResult1[i].OPEN_READING %>" disabled>
+                  </td>
+                  <td>
+                    <input type="text"  class="form-control" name="<%= 'cr'+i %>">
+                  </td>
+                </tr>
+                <% } %>
+              </table>
+              <p align="center">
+              <input type="checkbox"  class="form-control" name="fuelreceived" class="fuelreceived">
+              <label for="fuel">Fuel Received</label>
+            </p>
+              <div class="fuelreceipt">
+                <table border="5" align="center"  class="table table-striped" >
+                  <th>Entry Type</th>
+                  <th>Entry</th>
+                  <tr>
+                    <td>TT No.</td>
+                    <td>
+                      <input type="text"  class="form-control" name="ttno"  />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Transport</td>
+                    <td>
+                    <select name="transport">
+                      <% for(i in transports) {%>
+                        <option value="<%= transports[i].ID %>" class="form-control" ><%= transports[i].NAME %></option>
+                      <% } %>
+                    </select>
+                  </td>
+                  </tr>
+                  <tr>
+                    <td>Product</td>
+                    <td>
+                      <select name="product">
+                        <% for(i in fuels) { %>
+                          <option value="<%= fuels[i].ID %>" class="form-control" ><%= fuels[i].TYPE %></option>
+                        <% } %>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Invoice No.</td>
+                    <td>
+                      <input type="text" name="invoiceno"  class="form-control" >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Invoice Date</td>
+                    <td>
+                      <input type="date" name="invoicedate"  class="form-control" />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Invoice Amount</td>
+                    <td>
+                      <input type="text" name="invoiceamount"  class="form-control" />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Invoice Quantity</td>
+                    <td>
+                      <input type="text" name="invoiceqty"  class="form-control" />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Invoice Temp</td>
+                    <td>
+                      <input type="text" name="invoicetemp"  class="form-control" />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>RO Temp</td>
+                    <td>
+                      <input type="text" name="rotemp" class="form-control"  />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Invoice Density</td>
+                    <td>
+                      <input type="text" name="invoicedensity" class="form-control"  />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>RO Composite Density</td>
+                    <td>
+                      <input type="text" name="rodensity"  class="form-control" />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>TVA</td>
+                    <td>
+                      <input type="text" name="tva" class="form-control"  />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Short Transport Report</td>
+                    <td>
+                      <input type="text" name="short" class="form-control"  />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Freight Invoice No.</td>
+                    <td>
+                      <input type="text" name="finvoiceno"  class="form-control" />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Freight Invoice Amount</td>
+                    <td>
+                      <input type="text" name="finvoiceamount" class="form-control"  />
+                    </td>
+                  </tr>
+                </table>
+              </div>
+                <p align="center" >
+                    <button type="submit" name="act" class="form-control"  value="<%= '2 '+endShiftResult.length+' '+endShiftResult[0].SHIFT_ID+' '+paymentModes.length %>">End Shift</button>
+                  </p>
+                      </form>
+              <% } %>
+            </div> 
+            </div>
+            <% } else { %>             
+              <h2>Login First</h2>  
+              <% } %> 
+    </body>
+</html>
